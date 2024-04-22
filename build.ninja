@@ -1,0 +1,14 @@
+cflags = -Wall
+ldflags =
+
+rule cc
+  command = g++ -c $cflags $in -o $out
+
+rule link
+  command = g++ $ldflags $in -o $out
+
+build .build/gmcapi/GmcApiRequest.o: cc src/gmcapi/GmcApiRequest.cpp
+build .build/gmcapi/GmcConnection.o: cc src/gmcapi/GmcConnection.cpp
+build .build/main.o: cc src/main.cpp
+
+build server-restarter: link .build/main.o .build/gmcapi/GmcApiRequest.o .build/gmcapi/GmcConnection.o
