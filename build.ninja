@@ -1,5 +1,6 @@
 cflags = -Wall
-ldflags =
+ldflags = -lcurl
+# -lcurl: libcurl4-openssl-dev
 
 rule cc
   command = g++ -c $cflags $in -o $out
