@@ -6,7 +6,7 @@ rule cc
   command = g++ -c $cflags $in -o $out
 
 rule link
-  command = g++ $ldflags $in -o $out
+  command = g++ $in -o $out $ldflags
 
 build .build/gmcapi/GmcApiRequest.o: cc src/gmcapi/GmcApiRequest.cpp
 build .build/gmcapi/GmcConnection.o: cc src/gmcapi/GmcConnection.cpp
