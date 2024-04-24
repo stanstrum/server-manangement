@@ -1,5 +1,4 @@
 #include "GmcApiRequest.hpp"
-#include <string>
 
 class GmcCsrfInitialization: private GmcApiRequest {
 public:
@@ -8,6 +7,8 @@ public:
   Method method() final;
 
   void finalize(CURL* curl) final;
+
+  void consume_response(std::string response) final;
 };
 
 class GmcAuthentication: private GmcApiRequest {
@@ -28,4 +29,6 @@ public:
   Method method() final;
 
   void finalize(CURL* curl) final;
+
+  void consume_response(std::string response) final;
 };

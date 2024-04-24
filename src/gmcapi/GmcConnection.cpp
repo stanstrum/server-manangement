@@ -154,8 +154,10 @@ template<class Request> void GmcConnection::send_request(Request request) {
     throw new std::runtime_error("Non-zero CURL result");
   };
 
-  // std::cout << prefix_string(read_buffer, "< ");
-  // std::cout << "(response, " << read_buffer.size() << " bytes)" << std::endl;
+  std::cout << prefix_string(read_buffer, "< ");
+  std::cout << "(response, " << read_buffer.size() << " bytes)" << std::endl;
+
+  return request.consume_response(read_buffer);
 };
 
 void GmcConnection::debug() {

@@ -1,4 +1,5 @@
 #include <curl/curl.h>
+#include <string>
 
 class GmcApiRequest {
 public:
@@ -13,4 +14,6 @@ public:
   virtual Method method() = 0;
 
   virtual void finalize(CURL* curl) = 0;
+
+  virtual void consume_response(std::string response) = 0;
 };

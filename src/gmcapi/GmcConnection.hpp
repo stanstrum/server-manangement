@@ -1,4 +1,9 @@
+#ifndef GMC_CONNECTION_HPP
+#define GMC_CONNECTION_HPP
+
 #include "Paths.hpp"
+#include "GmcServer.hpp"
+#include <vector>
 
 class GmcConnection {
 private:
@@ -9,6 +14,8 @@ private:
   std::string* csrf_token = nullptr;
 
   CURL* curl;
+
+  std::vector<struct GmcServer> servers;
 
   static size_t write_callback(void* contents, size_t size, size_t nmemb, void* userp);
   static size_t header_callback(void* contents, size_t size, size_t nmemb, void* userp);
@@ -26,3 +33,5 @@ public:
 
   void debug();
 };
+
+#endif
