@@ -1,4 +1,3 @@
-#include <curl/curl.h>
 #include "Paths.hpp"
 
 class GmcConnection {

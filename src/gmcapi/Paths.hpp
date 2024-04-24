@@ -6,6 +6,8 @@ public:
   const char* path() final;
   const char* referrer() final;
   Method method() final;
+
+  void finalize(CURL* curl) final;
 };
 
 class GmcAuthentication: private GmcApiRequest {
@@ -24,4 +26,6 @@ public:
   const char* path() final;
   const char* referrer() final;
   Method method() final;
+
+  void finalize(CURL* curl) final;
 };

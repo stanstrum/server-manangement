@@ -8,9 +8,10 @@ rule cc
 rule link
   command = g++ $in -o $out $ldflags
 
-build .build/gmcapi/GmcApiRequest.o: cc src/gmcapi/GmcApiRequest.cpp
-build .build/gmcapi/GmcConnection.o: cc src/gmcapi/GmcConnection.cpp
-build .build/gmcapi/Paths.o: cc src/gmcapi/Paths.cpp
+build .build/gmcapi/GmcApiRequest.o: cc src/gmcapi/GmcApiRequest.cpp | src/gmcapi/GmcApiRequest.hpp
+build .build/gmcapi/GmcConnection.o: cc src/gmcapi/GmcConnection.cpp | src/gmcapi/GmcConnection.hpp
+build .build/gmcapi/Paths.o: cc src/gmcapi/Paths.cpp | src/gmcapi/Paths.hpp
+
 build .build/main.o: cc src/main.cpp
 
 build server-restarter: link .build/main.o .build/gmcapi/GmcApiRequest.o .build/gmcapi/GmcConnection.o .build/gmcapi/Paths.o
