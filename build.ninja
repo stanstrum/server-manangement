@@ -1,4 +1,4 @@
-cflags = -Wall
+cflags = -Wall -Iinclude
 ldflags = -lcurl
 # -lcurl: libcurl4-openssl-dev
 

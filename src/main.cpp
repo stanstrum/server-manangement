@@ -4,6 +4,8 @@
 
 #include "gmcapi/GmcConnection.hpp"
 
+#include <nlohmann/json.hpp>
+
 int main(int argc, char** argv) {
   std::string username;
   std::string password;
