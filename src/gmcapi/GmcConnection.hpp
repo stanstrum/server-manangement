@@ -32,6 +32,17 @@ public:
   template<class Request> void send_request(Request request);
 
   void debug();
+
+  void add_server(struct GmcServer& server) {
+    this->servers.push_back(server);
+  };
+
+  struct GmcServer* default_server() {
+    if (this->servers.size() != 1)
+      return nullptr;
+
+    return &this->servers[0];
+  };
 };
 
 #endif

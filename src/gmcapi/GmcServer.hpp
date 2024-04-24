@@ -2,6 +2,9 @@
 #define GMC_SERVER_HPP
 
 #include "GmcConnection.hpp"
+#include "Paths.hpp"
+
+#include <iostream>
 #include <stdexcept>
 
 class GmcServer {
@@ -10,13 +13,13 @@ private:
   struct GmcConnection* client;
 
 public:
-  GmcServer(GmcConnection* client, uint32_t id) : id(id) {
-    if (!client) {
-      throw new std::runtime_error("Cannot create a server for a nullptr client");
-    };
+  GmcServer(GmcConnection* client, uint32_t id);
 
-    this->client = client;
-  };
+  void rcon(std::string command);
+  void start();
+  void stop();
+  void restart();
+  void status();
 };
 
 #endif

@@ -20,7 +20,7 @@ public:
       // curl_slist_free_all(this->headers);
 
       // return some error code?
-      throw new std::runtime_error("curl_slist_append failed");
+      throw std::runtime_error("curl_slist_append failed");
     };
 
     this->headers = temp;
@@ -151,10 +151,10 @@ template<class Request> void GmcConnection::send_request(Request request) {
   if (res) {
     std::cerr << "Non-zero CURL result: " << res << std::endl;
 
-    throw new std::runtime_error("Non-zero CURL result");
+    throw std::runtime_error("Non-zero CURL result");
   };
 
-  std::cout << prefix_string(read_buffer, "< ");
+  std::cout << prefix_string(read_buffer, "< ") << std::endl;
   std::cout << "(response, " << read_buffer.size() << " bytes)" << std::endl;
 
   return request.consume_response(read_buffer);
@@ -173,47 +173,55 @@ size_t GmcConnection::write_callback(void* contents, size_t size, size_t nmemb, 
 };
 
 size_t GmcConnection::header_callback(void* contents, size_t size, size_t nmemb, void* userp) {
-  const static std::regex CSRF_REGEX("set-cookie: (.+?)=(.+?)\\s*[;$]", std::regex_constants::icase);
+  const static std::regex DEFAULT_SERVER_REGEX("^location: .+?(\\d+)", std::regex_constants::icase);
+  const static std::regex COOKIE_REGEX("^set-cookie: (.+?)=(.+?)\\s*[;$]", std::regex_constants::icase);
+
+  std::cout << std::string((char*)contents, size * nmemb);
 
   std::string line((char*)contents, size * nmemb);
 
-  std::string name;
-  std::string value;
-  std::string** cookie_to_write;
+  GmcConnection* self = (GmcConnection*)userp;
 
-  GmcConnection* self;
+  std::smatch cookie_matches;
+  std::smatch location_matches;
 
-  std::smatch matches;
-  if (
-    std::regex_search(line, matches, CSRF_REGEX) &&
-    matches.size() < 3 // [whole match, group 1, group 2] =
-  ) {
-    goto ret;
+  std::regex_search(line, cookie_matches, COOKIE_REGEX);
+  std::regex_search(line, location_matches, DEFAULT_SERVER_REGEX);
+
+  if (cookie_matches.size() == 3) {
+    std::string name = cookie_matches[1];
+    std::string value = cookie_matches[2];
+
+    std::string** cookie_to_write;
+
+    if (name == "csrftoken") {
+      std::cout << "Got CSRF token! " << value << std::endl;
+      cookie_to_write = &self->csrf_token;
+    } else if (name == "sessionid") {
+      std::cout << "Got session id! " << value << std::endl;
+      cookie_to_write = &self->session_id;
+    };
+
+    if (cookie_to_write) {
+      if (*cookie_to_write) {
+        free(*cookie_to_write);
+      };
+
+      *cookie_to_write = new std::string(value);
+    };
   };
 
-  name = matches[1];
-  value = matches[2];
+  if (location_matches.size() == 2) {
+    uint32_t default_server_id = std::stoi(location_matches[1]);
 
-  self = (GmcConnection*)userp;
-
-  if (name == "csrftoken") {
-    std::cout << "Got CSRF token! " << value << std::endl;
-    cookie_to_write = &self->csrf_token;
-  } else if (name == "sessionid") {
-    std::cout << "Got session id! " << value << std::endl;
-    cookie_to_write = &self->session_id;
-  } else {
-    goto ret;
+    GmcServer default_server(self, default_server_id);
+    self->add_server(default_server);
   };
 
-  if (*cookie_to_write) {
-    free(*cookie_to_write);
-  };
-
-  *cookie_to_write = new std::string(value);
-
-  ret: return size * nmemb;
+  return size * nmemb;
 };
 
 template void GmcConnection::send_request(GmcCsrfInitialization request);
 template void GmcConnection::send_request(GmcAuthentication request);
+template void GmcConnection::send_request(GmcDefaultServerFetch request);
+template void GmcConnection::send_request(GmcServerGetInfo request);

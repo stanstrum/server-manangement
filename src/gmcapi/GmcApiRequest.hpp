@@ -1,3 +1,6 @@
+#ifndef GMC_API_REQUEST_HPP
+#define GMC_API_REQUEST_HPP
+
 #include <curl/curl.h>
 #include <string>
 
@@ -17,3 +20,5 @@ public:
 
   virtual void consume_response(std::string response) = 0;
 };
+
+#endif

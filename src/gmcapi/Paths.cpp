@@ -1,6 +1,5 @@
 #include "Paths.hpp"
 #include <sstream>
-#include <iostream>
 
 const char* GmcCsrfInitialization::path() { return "/login/"; };
 const char* GmcCsrfInitialization::referrer() { return 0; };
@@ -45,3 +44,27 @@ GmcAuthentication::GmcAuthentication(
   password(password),
   rememberme(rememberme)
 {}
+
+const char* GmcDefaultServerFetch::path() { return "/dashboard/game/servers/"; };
+const char* GmcDefaultServerFetch::referrer() { return "/dashboard/profile/"; };
+GmcApiRequest::Method GmcDefaultServerFetch::method() { return HEAD; };
+
+void GmcDefaultServerFetch::finalize(CURL* curl) {};
+void GmcDefaultServerFetch::consume_response(std::string response) {};
+
+GmcServerGetInfo::GmcServerGetInfo(uint32_t server_id) : m_server_id(server_id) {
+  std::ostringstream oss;
+
+  oss << "/dashboard/game/servers/" << this->m_server_id << "/getinfo/";
+
+  this->m_path = oss.str();
+};
+
+const char* GmcServerGetInfo::path() { return this->m_path.c_str(); };
+const char* GmcServerGetInfo::referrer() { return "/dashboard/profile/"; };
+GmcApiRequest::Method GmcServerGetInfo::method() { return GET; };
+
+void GmcServerGetInfo::finalize(CURL* curl) {};
+void GmcServerGetInfo::consume_response(std::string response) {
+  std::cout << "GmcServerGetInfo: consume response: \n" << response << std::endl;
+};
