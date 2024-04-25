@@ -31,18 +31,10 @@ public:
 
   template<class Request> void send_request(Request request);
 
-  void debug();
+  void connect(std::string username, std::string password);
 
-  void add_server(struct GmcServer& server) {
-    this->servers.push_back(server);
-  };
-
-  struct GmcServer* default_server() {
-    if (this->servers.size() != 1)
-      return nullptr;
-
-    return &this->servers[0];
-  };
+  void add_server(struct GmcServer& server);
+  struct GmcServer* default_server();
 };
 
 #endif

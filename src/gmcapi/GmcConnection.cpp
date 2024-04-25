@@ -179,6 +179,28 @@ size_t GmcConnection::header_callback(void* contents, size_t size, size_t nmemb,
   return size * nmemb;
 };
 
+void GmcConnection::connect(std::string username, std::string password) {
+  GmcCsrfInitialization csrf_init {};
+  this->send_request(csrf_init);
+
+  GmcAuthentication auth { username, password, true };
+  this->send_request(auth);
+
+  GmcDefaultServerFetch default_server {};
+  this->send_request(default_server);
+};
+
+void GmcConnection::add_server(struct GmcServer& server) {
+  this->servers.push_back(server);
+};
+
+struct GmcServer* GmcConnection::default_server()  {
+  if (this->servers.size() != 1)
+    return nullptr;
+
+  return &this->servers[0];
+};
+
 template void GmcConnection::send_request(GmcCsrfInitialization request);
 template void GmcConnection::send_request(GmcAuthentication request);
 template void GmcConnection::send_request(GmcDefaultServerFetch request);

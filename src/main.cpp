@@ -35,15 +35,7 @@ int main(int argc, char** argv) {
 
   try {
     GmcConnection conn(host);
-
-    GmcCsrfInitialization request {};
-    conn.send_request(request);
-
-    GmcAuthentication authentication(username, password, true);
-    conn.send_request(authentication);
-
-    GmcDefaultServerFetch fetch {};
-    conn.send_request(fetch);
+    conn.connect(username, password);
 
     auto* default_server = conn.default_server();
     if (!default_server) {
