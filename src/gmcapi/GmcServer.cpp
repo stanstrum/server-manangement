@@ -24,8 +24,8 @@ void GmcServer::restart() {
   throw std::runtime_error("Not implemented");
 };
 
-void GmcServer::status() {
-  GmcServerGetInfo request(this->id);
+void GmcServer::status(struct GmcServerStatus& status) {
+  GmcServerGetInfo request(this->id, status);
 
   this->client->send_request(request);
 };

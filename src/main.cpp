@@ -4,8 +4,6 @@
 
 #include "gmcapi/GmcConnection.hpp"
 
-#include <nlohmann/json.hpp>
-
 int main(int argc, char** argv) {
   std::string username;
   std::string password;
@@ -64,9 +62,26 @@ int main(int argc, char** argv) {
     };
 
     // default_server->rcon("status");
-    default_server->status();
+    struct GmcServerStatus status;
+    default_server->status(status);
 
     std::cout << std::endl;
+
+    std::cout << "server_ipv4_address: " << status.server_ipv4_address << std::endl;
+    std::cout << "network_usage: " << status.network_usage << std::endl;
+    std::cout << "max_players: " << status.max_players << std::endl;
+    std::cout << "ram_usage: " << status.ram_usage << std::endl;
+    std::cout << "serv_name: " << status.serv_name << std::endl;
+    std::cout << "workshoperror: " << status.workshoperror << std::endl;
+    std::cout << "workshop_progress: " << status.workshop_progress << std::endl;
+    std::cout << "fps: " << status.fps << std::endl;
+    std::cout << "ent_cnt: " << status.ent_cnt << std::endl;
+    std::cout << "workshopstatus: " << status.workshopstatus << std::endl;
+    std::cout << "pid: " << status.pid << std::endl;
+    std::cout << "active_players: " << status.active_players << std::endl;
+    std::cout << "server_status: " << status.server_status << std::endl;
+    std::cout << "cpu_usage: " << status.cpu_usage << std::endl;
+    std::cout << "server_gameport: " << status.server_gameport << std::endl;
 
     curl_global_cleanup();
   } catch (const std::runtime_error& error) {

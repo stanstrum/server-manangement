@@ -1,3 +1,5 @@
 .ninja_log
-server-restarter
 .build/
+server-restarter
+
+.env

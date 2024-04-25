@@ -1,6 +1,8 @@
 #include "Paths.hpp"
 #include <sstream>
 
+#include <nlohmann/json.hpp>
+
 const char* GmcCsrfInitialization::path() { return "/login/"; };
 const char* GmcCsrfInitialization::referrer() { return 0; };
 GmcApiRequest::Method GmcCsrfInitialization::method() { return HEAD; };
@@ -52,7 +54,13 @@ GmcApiRequest::Method GmcDefaultServerFetch::method() { return HEAD; };
 void GmcDefaultServerFetch::finalize(CURL* curl) {};
 void GmcDefaultServerFetch::consume_response(std::string response) {};
 
-GmcServerGetInfo::GmcServerGetInfo(uint32_t server_id) : m_server_id(server_id) {
+GmcServerGetInfo::GmcServerGetInfo(
+  uint32_t server_id,
+  struct GmcServerStatus& status
+) :
+  m_server_id(server_id),
+  m_status(status)
+{
   std::ostringstream oss;
 
   oss << "/dashboard/game/servers/" << this->m_server_id << "/getinfo/";
@@ -66,5 +74,27 @@ GmcApiRequest::Method GmcServerGetInfo::method() { return GET; };
 
 void GmcServerGetInfo::finalize(CURL* curl) {};
 void GmcServerGetInfo::consume_response(std::string response) {
-  std::cout << "GmcServerGetInfo: consume response: \n" << response << std::endl;
+  using json = nlohmann::json;
+
+  json data = json::parse(response);
+
+  try {
+    data["server_ipv4_address"].get_to(this->m_status.server_ipv4_address);
+    data["network_usage"].get_to(this->m_status.network_usage);
+    data["max_players"].get_to(this->m_status.max_players);
+    data["ram_usage"].get_to(this->m_status.ram_usage);
+    data["serv_name"].get_to(this->m_status.serv_name);
+    data["workshoperror"].get_to(this->m_status.workshoperror);
+    data["workshop_progress"].get_to(this->m_status.workshop_progress);
+    data["fps"].get_to(this->m_status.fps);
+    data["ent_cnt"].get_to(this->m_status.ent_cnt);
+    data["workshopstatus"].get_to(this->m_status.workshopstatus);
+    data["pid"].get_to(this->m_status.pid);
+    data["active_players"].get_to(this->m_status.active_players);
+    data["server_status"].get_to(this->m_status.server_status);
+    data["cpu_usage"].get_to(this->m_status.cpu_usage);
+    data["server_gameport"].get_to(this->m_status.server_gameport);
+  } catch (const json::type_error& error) {
+    std::cerr << error.what() << std::endl;
+  };
 };
