@@ -28,8 +28,6 @@ void GmcAuthentication::finalize(CURL* curl) {
   oss << "username=" << username << "&password=" << password << "&rememberme=" << rememberme;
   std::string post_data = oss.str();
 
-  std::cout << "formdata: " << post_data << std::endl;
-
   curl_easy_setopt(curl, CURLOPT_COPYPOSTFIELDS, post_data.c_str());
 };
 

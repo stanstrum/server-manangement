@@ -35,22 +35,15 @@ int main(int argc, char** argv) {
 
   try {
     GmcConnection conn(host);
-    conn.debug();
 
     GmcCsrfInitialization request {};
     conn.send_request(request);
 
-    std::cout << std::endl;
-
     GmcAuthentication authentication(username, password, true);
     conn.send_request(authentication);
 
-    std::cout << std::endl;
-
     GmcDefaultServerFetch fetch {};
     conn.send_request(fetch);
-
-    std::cout << std::endl;
 
     auto* default_server = conn.default_server();
     if (!default_server) {
@@ -64,8 +57,6 @@ int main(int argc, char** argv) {
     // default_server->rcon("status");
     struct GmcServerStatus status;
     default_server->status(status);
-
-    std::cout << std::endl;
 
     std::cout << "server_ipv4_address: " << status.server_ipv4_address << std::endl;
     std::cout << "network_usage: " << status.network_usage << std::endl;

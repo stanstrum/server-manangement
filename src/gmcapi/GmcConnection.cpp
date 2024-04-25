@@ -27,20 +27,6 @@ public:
   };
 };
 
-std::string prefix_string(std::string str, std::string prefix) {
-  std::string out = prefix;
-
-  for (size_t i = 0; i < str.length(); i++) {
-    out.push_back(str[i]);
-
-    if (str[i] == '\n') {
-      out.append(prefix);
-    };
-  };
-
-  return out;
-};
-
 GmcConnection::GmcConnection(std::string host)
   : host(host)
 {
@@ -89,7 +75,6 @@ template<class Request> void GmcConnection::send_request(Request request) {
   };
 
   std::string url = this->panel_url + request.path();
-  std::cout << "url: " << url << std::endl;
 
   curl_easy_setopt(this->curl, CURLOPT_URL, url.c_str());
   curl_easy_setopt(this->curl, CURLOPT_WRITEDATA, &read_buffer);
@@ -105,16 +90,11 @@ template<class Request> void GmcConnection::send_request(Request request) {
   std::string cookie_string = "";
 
   if (this->csrf_token) {
-    std::cout << "add CSRF to cookie string" << std::endl;
-
     cookie_string.append("csrftoken=" + *this->csrf_token);
-
     chw.append(("x-csrftoken: " + *this->csrf_token).c_str());
   };
 
   if (this->session_id) {
-    std::cout << "add session id to cookie string" << std::endl;
-
     if (!cookie_string.empty()) {
       cookie_string.append("; ");
     };
@@ -132,37 +112,20 @@ template<class Request> void GmcConnection::send_request(Request request) {
   const char* referrer = request.referrer();
   std::string referrer_header = "Referer: " + this->panel_url;
   if (referrer) {
-    std::cout << "added referrer" << std::endl;
-
     referrer_header += referrer;
-
     chw.append(referrer_header.c_str());
-  } else {
-    std::cout << "no referrer" << std::endl;
   };
 
   curl_easy_setopt(this->curl, CURLOPT_HTTPHEADER, chw.headers);
-
   request.finalize(this->curl);
 
-  // std::cout << "\n\n" << std::endl;
   CURLcode res = curl_easy_perform(this->curl);
 
   if (res) {
-    std::cerr << "Non-zero CURL result: " << res << std::endl;
-
     throw std::runtime_error("Non-zero CURL result");
   };
 
-  std::cout << prefix_string(read_buffer, "< ") << std::endl;
-  std::cout << "(response, " << read_buffer.size() << " bytes)" << std::endl;
-
   return request.consume_response(read_buffer);
-};
-
-void GmcConnection::debug() {
-  std::cout << "host: " << this->host << '\n';
-  std::cout << "panel_url: " << this->panel_url << std::endl;
 };
 
 // https://terminalroot.com/using-curl-with-cpp/
@@ -176,11 +139,8 @@ size_t GmcConnection::header_callback(void* contents, size_t size, size_t nmemb,
   const static std::regex DEFAULT_SERVER_REGEX("^location: .+?(\\d+)", std::regex_constants::icase);
   const static std::regex COOKIE_REGEX("^set-cookie: (.+?)=(.+?)\\s*[;$]", std::regex_constants::icase);
 
-  std::cout << std::string((char*)contents, size * nmemb);
-
-  std::string line((char*)contents, size * nmemb);
-
   GmcConnection* self = (GmcConnection*)userp;
+  std::string line((char*)contents, size * nmemb);
 
   std::smatch cookie_matches;
   std::smatch location_matches;
@@ -195,10 +155,8 @@ size_t GmcConnection::header_callback(void* contents, size_t size, size_t nmemb,
     std::string** cookie_to_write;
 
     if (name == "csrftoken") {
-      std::cout << "Got CSRF token! " << value << std::endl;
       cookie_to_write = &self->csrf_token;
     } else if (name == "sessionid") {
-      std::cout << "Got session id! " << value << std::endl;
       cookie_to_write = &self->session_id;
     };
 
