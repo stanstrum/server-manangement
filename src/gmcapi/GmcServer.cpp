@@ -9,7 +9,9 @@ GmcServer::GmcServer(GmcConnection* client, uint32_t id) : id(id) {
 };
 
 void GmcServer::rcon(std::string command) {
-  throw std::runtime_error("Not implemented");
+  GmcServerRcon request(this->id, command);
+
+  this->client->send_request(request);
 };
 
 void GmcServer::start() {

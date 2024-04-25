@@ -3,7 +3,9 @@
 
 #include <nlohmann/json.hpp>
 
-const char* GmcCsrfInitialization::path() { return "/login/"; };
+GmcCsrfInitialization::GmcCsrfInitialization(std::string path) : m_path(path) {};
+
+const char* GmcCsrfInitialization::path() { return this->m_path.c_str(); };
 const char* GmcCsrfInitialization::referrer() { return 0; };
 GmcApiRequest::Method GmcCsrfInitialization::method() { return HEAD; };
 
@@ -96,3 +98,96 @@ void GmcServerGetInfo::consume_response(std::string response) {
     std::cerr << error.what() << std::endl;
   };
 };
+
+GmcServerStart::GmcServerStart(uint32_t id) {
+  std::ostringstream path_oss;
+  std::ostringstream referrer_oss;
+
+  path_oss << "/dashboard/game/servers/" << id << "/start/";
+  referrer_oss << "/dashboard/game/servers/" << id << "/";
+
+  this->m_path = path_oss.str();
+  this->m_referrer = path_oss.str();
+};
+
+const char* GmcServerStart::path() {
+  return this->m_path.c_str();
+};
+
+const char* GmcServerStart::referrer() {
+  return this->m_referrer.c_str();
+};
+
+GmcApiRequest::Method GmcServerStart::method() {
+  return POST;
+};
+
+void GmcServerStart::finalize(CURL* curl) {};
+void GmcServerStart::consume_response(std::string response) {};
+
+GmcServerStop::GmcServerStop(uint32_t id) {
+  std::ostringstream path_oss;
+  std::ostringstream referrer_oss;
+
+  path_oss << "/dashboard/game/servers/" << id << "/stop/";
+  referrer_oss << "/dashboard/game/servers/" << id << "/";
+
+  this->m_path = path_oss.str();
+  this->m_referrer = path_oss.str();
+};
+
+const char* GmcServerStop::path() {
+  return this->m_path.c_str();
+};
+
+const char* GmcServerStop::referrer() {
+  return this->m_referrer.c_str();
+};
+
+GmcApiRequest::Method GmcServerStop::method() {
+  return POST;
+};
+
+void GmcServerStop::finalize(CURL* curl) {};
+void GmcServerStop::consume_response(std::string response) {};
+
+GmcServerRcon::GmcServerRcon(uint32_t id, std::string command) : m_command(command) {
+  std::ostringstream path_oss;
+  std::ostringstream referrer_oss;
+
+  path_oss << "/dashboard/game/servers/" << id << "/console/send/";
+  referrer_oss << "/dashboard/game/servers/" << id << "/console/";
+
+  this->m_path = path_oss.str();
+  this->m_referrer = referrer_oss.str();
+};
+
+const char* GmcServerRcon::path() {
+  return this->m_path.c_str();
+};
+
+const char* GmcServerRcon::referrer() {
+  return this->m_referrer.c_str();
+};
+
+GmcApiRequest::Method GmcServerRcon::method() {
+  return POST;
+};
+
+void GmcServerRcon::finalize(CURL* curl) {
+  const char* command = curl_easy_escape(curl, this->m_command.c_str(), this->m_command.size());
+
+  if (!command) {
+    throw std::runtime_error("Failed to escape RCON command code");
+  };
+
+  std::ostringstream oss;
+  oss << "consolecommand=" << command;
+
+  std::string post_data = oss.str();
+
+  std::cout << "post_data: " << post_data << std::endl;
+  curl_easy_setopt(curl, CURLOPT_COPYPOSTFIELDS, post_data.c_str());
+};
+
+void GmcServerRcon::consume_response(std::string response) {};

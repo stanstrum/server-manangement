@@ -46,7 +46,7 @@ int main(int argc, char** argv) {
       return 1;
     };
 
-    // default_server->rcon("status");
+    default_server->rcon("say \"hello world (from C++)\"");
     struct GmcServerStatus status;
     default_server->status(status);
 

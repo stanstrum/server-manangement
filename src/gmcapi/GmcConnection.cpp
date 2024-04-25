@@ -62,6 +62,11 @@ template<class Request> void GmcConnection::send_request(Request request) {
       break;
 
     case GmcApiRequest::Method::POST:
+      if (const char* referrer_path = request.referrer()) {
+        GmcCsrfInitialization csrf_init(referrer_path);
+        this->send_request(csrf_init);
+      };
+
       curl_easy_setopt(this->curl, CURLOPT_NOBODY, false);
       curl_easy_setopt(this->curl, CURLOPT_POST, true);
 
@@ -75,6 +80,8 @@ template<class Request> void GmcConnection::send_request(Request request) {
   };
 
   std::string url = this->panel_url + request.path();
+
+  std::cout << "url: " << url << std::endl;
 
   curl_easy_setopt(this->curl, CURLOPT_URL, url.c_str());
   curl_easy_setopt(this->curl, CURLOPT_WRITEDATA, &read_buffer);
@@ -91,7 +98,10 @@ template<class Request> void GmcConnection::send_request(Request request) {
 
   if (this->csrf_token) {
     cookie_string.append("csrftoken=" + *this->csrf_token);
-    chw.append(("x-csrftoken: " + *this->csrf_token).c_str());
+
+    if (request.method() == GmcApiRequest::Method::POST) {
+      chw.append(("x-csrftoken: " + *this->csrf_token).c_str());
+    };
   };
 
   if (this->session_id) {
@@ -119,11 +129,17 @@ template<class Request> void GmcConnection::send_request(Request request) {
   curl_easy_setopt(this->curl, CURLOPT_HTTPHEADER, chw.headers);
   request.finalize(this->curl);
 
+  // std::cout << "\n";
+
   CURLcode res = curl_easy_perform(this->curl);
 
   if (res) {
     throw std::runtime_error("Non-zero CURL result");
   };
+
+  // if (!read_buffer.empty()) {
+  //   std::cout << read_buffer << "\n" << std::endl;
+  // };
 
   return request.consume_response(read_buffer);
 };
@@ -136,6 +152,8 @@ size_t GmcConnection::write_callback(void* contents, size_t size, size_t nmemb, 
 };
 
 size_t GmcConnection::header_callback(void* contents, size_t size, size_t nmemb, void* userp) {
+  // std::cout << std::string((char*)contents, size * nmemb);
+
   const static std::regex DEFAULT_SERVER_REGEX("^location: .+?(\\d+)", std::regex_constants::icase);
   const static std::regex COOKIE_REGEX("^set-cookie: (.+?)=(.+?)\\s*[;$]", std::regex_constants::icase);
 
@@ -180,9 +198,6 @@ size_t GmcConnection::header_callback(void* contents, size_t size, size_t nmemb,
 };
 
 void GmcConnection::connect(std::string username, std::string password) {
-  GmcCsrfInitialization csrf_init {};
-  this->send_request(csrf_init);
-
   GmcAuthentication auth { username, password, true };
   this->send_request(auth);
 
@@ -205,3 +220,6 @@ template void GmcConnection::send_request(GmcCsrfInitialization request);
 template void GmcConnection::send_request(GmcAuthentication request);
 template void GmcConnection::send_request(GmcDefaultServerFetch request);
 template void GmcConnection::send_request(GmcServerGetInfo request);
+template void GmcConnection::send_request(GmcServerStart request);
+template void GmcConnection::send_request(GmcServerStop request);
+template void GmcConnection::send_request(GmcServerRcon request);
