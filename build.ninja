@@ -15,4 +15,4 @@ build .build/gmcapi/Paths.o: cc src/gmcapi/Paths.cpp | src/gmcapi/Paths.hpp
 
 build .build/main.o: cc src/main.cpp
 
-build server-restarter: link .build/main.o .build/gmcapi/GmcApiRequest.o .build/gmcapi/GmcConnection.o .build/gmcapi/Paths.o .build/gmcapi/GmcServer.o
+build server-restarter: link .build/main.o .build/gmcapi/GmcApiRequest.o .build/gmcapi/GmcConnection.o .build/gmcapi/GmcServer.o .build/gmcapi/Paths.o
