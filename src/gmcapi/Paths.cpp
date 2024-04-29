@@ -148,7 +148,10 @@ GmcApiRequest::Method GmcServerStop::method() {
   return POST;
 };
 
-void GmcServerStop::finalize(CURL* curl) {};
+void GmcServerStop::finalize(CURL* curl) {
+  // TODO: add stopcmd
+  curl_easy_setopt(curl, CURLOPT_COPYPOSTFIELDS, "stopcmd=");
+};
 void GmcServerStop::consume_response(std::string response) {};
 
 GmcServerRcon::GmcServerRcon(uint32_t id, std::string command) : m_command(command) {

@@ -15,15 +15,19 @@ void GmcServer::rcon(std::string command) {
 };
 
 void GmcServer::start() {
-  throw std::runtime_error("Not implemented");
+  GmcServerStart request(this->id);
+  this->client->send_request(request);
 };
 
 void GmcServer::stop() {
-  throw std::runtime_error("Not implemented");
+  GmcServerStop request(this->id);
+  this->client->send_request(request);
 };
 
+// "Sometimes my genius ... it's almost frightening."
 void GmcServer::restart() {
-  throw std::runtime_error("Not implemented");
+  this->stop();
+  this->start();
 };
 
 void GmcServer::status(struct GmcServerStatus& status) {
