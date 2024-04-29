@@ -60,6 +60,8 @@
     "ranges": "cpp",
     "valarray": "cpp",
     "*.rh": "cpp",
-    "thread": "cpp"
+    "thread": "cpp",
+    "semaphore": "cpp",
+    "stop_token": "cpp"
   }
 }

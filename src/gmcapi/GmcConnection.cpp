@@ -189,7 +189,7 @@ size_t GmcConnection::header_callback(void* contents, size_t size, size_t nmemb,
 
   if (
     location_matches.size() == 2 &&
-    self->default_server() != NULL
+    self->default_server() == nullptr
   ) {
     uint32_t default_server_id = std::stoi(location_matches[1]);
 
