@@ -12,7 +12,10 @@ build .build/gmcapi/GmcApiRequest.o: cc src/gmcapi/GmcApiRequest.cpp | src/gmcap
 build .build/gmcapi/GmcConnection.o: cc src/gmcapi/GmcConnection.cpp | src/gmcapi/GmcConnection.hpp
 build .build/gmcapi/GmcServer.o: cc src/gmcapi/GmcServer.cpp | src/gmcapi/GmcServer.hpp
 build .build/gmcapi/Paths.o: cc src/gmcapi/Paths.cpp | src/gmcapi/Paths.hpp
+build .build/scheduler/Scheduler.o: cc src/scheduler/Scheduler.cpp | src/scheduler/Scheduler.hpp
+build .build/scheduler/IntervaledOperation.o: cc src/scheduler/IntervaledOperation.cpp | src/scheduler/IntervaledOperation.hpp
+build .build/ServerRestarter.o: cc src/ServerRestarter.cpp | src/ServerRestarter.hpp
 
 build .build/main.o: cc src/main.cpp
 
-build server-restarter: link .build/main.o .build/gmcapi/GmcApiRequest.o .build/gmcapi/GmcConnection.o .build/gmcapi/GmcServer.o .build/gmcapi/Paths.o
+build server-restarter: link .build/main.o .build/gmcapi/GmcApiRequest.o .build/gmcapi/GmcConnection.o .build/gmcapi/GmcServer.o .build/gmcapi/Paths.o .build/scheduler/Scheduler.o .build/scheduler/IntervaledOperation.o .build/ServerRestarter.o

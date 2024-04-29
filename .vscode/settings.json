@@ -59,6 +59,7 @@
     "iomanip": "cpp",
     "ranges": "cpp",
     "valarray": "cpp",
-    "*.rh": "cpp"
+    "*.rh": "cpp",
+    "thread": "cpp"
   }
 }
