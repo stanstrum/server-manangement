@@ -16,6 +16,6 @@ build .build/scheduler/Scheduler.o: cc src/scheduler/Scheduler.cpp | src/schedul
 build .build/scheduler/IntervaledOperation.o: cc src/scheduler/IntervaledOperation.cpp | src/scheduler/IntervaledOperation.hpp
 build .build/ServerRestarter.o: cc src/ServerRestarter.cpp | src/ServerRestarter.hpp
 
-build .build/main.o: cc src/main.cpp
+build .build/main.o: cc src/main.cpp | src/time_units.hpp
 
 build server-restarter: link .build/main.o .build/gmcapi/GmcApiRequest.o .build/gmcapi/GmcConnection.o .build/gmcapi/GmcServer.o .build/gmcapi/Paths.o .build/scheduler/Scheduler.o .build/scheduler/IntervaledOperation.o .build/ServerRestarter.o
