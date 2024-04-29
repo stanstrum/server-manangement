@@ -6,14 +6,14 @@
 
 class ServerRestarter: IntervaledOperation {
 private:
-  GmcServer& server;
+  GmcServer* server;
 
 protected:
   void operation() final;
 
 public:
   ServerRestarter(
-    GmcServer& server,
+    GmcServer* server,
     uint64_t interval,
     time_t start_timestamp
   );
