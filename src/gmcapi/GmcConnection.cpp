@@ -187,7 +187,10 @@ size_t GmcConnection::header_callback(void* contents, size_t size, size_t nmemb,
     };
   };
 
-  if (location_matches.size() == 2) {
+  if (
+    location_matches.size() == 2 &&
+    self->default_server() != NULL
+  ) {
     uint32_t default_server_id = std::stoi(location_matches[1]);
 
     GmcServer default_server(self, default_server_id);
