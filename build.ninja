@@ -11,11 +11,33 @@ rule link
 build .build/gmcapi/GmcApiRequest.o: cc src/gmcapi/GmcApiRequest.cpp | src/gmcapi/GmcApiRequest.hpp
 build .build/gmcapi/GmcConnection.o: cc src/gmcapi/GmcConnection.cpp | src/gmcapi/GmcConnection.hpp
 build .build/gmcapi/GmcServer.o: cc src/gmcapi/GmcServer.cpp | src/gmcapi/GmcServer.hpp
-build .build/gmcapi/Paths.o: cc src/gmcapi/Paths.cpp | src/gmcapi/Paths.hpp
+
+build .build/gmcapi/Paths/GmcAuthentication.o: cc src/gmcapi/Paths/GmcAuthentication.cpp | src/gmcapi/Paths/GmcAuthentication.hpp
+build .build/gmcapi/Paths/GmcCsrfInitialization.o: cc src/gmcapi/Paths/GmcCsrfInitialization.cpp | src/gmcapi/Paths/GmcCsrfInitialization.hpp
+build .build/gmcapi/Paths/GmcDefaultServerFetch.o: cc src/gmcapi/Paths/GmcDefaultServerFetch.cpp | src/gmcapi/Paths/GmcDefaultServerFetch.hpp
+build .build/gmcapi/Paths/GmcServerGetInfo.o: cc src/gmcapi/Paths/GmcServerGetInfo.cpp | src/gmcapi/Paths/GmcServerGetInfo.hpp
+build .build/gmcapi/Paths/GmcServerRcon.o: cc src/gmcapi/Paths/GmcServerRcon.cpp | src/gmcapi/Paths/GmcServerRcon.hpp
+build .build/gmcapi/Paths/GmcServerStart.o: cc src/gmcapi/Paths/GmcServerStart.cpp | src/gmcapi/Paths/GmcServerStart.hpp
+build .build/gmcapi/Paths/GmcServerStop.o: cc src/gmcapi/Paths/GmcServerStop.cpp | src/gmcapi/Paths/GmcServerStop.hpp
+
 build .build/scheduler/Scheduler.o: cc src/scheduler/Scheduler.cpp | src/scheduler/Scheduler.hpp
 build .build/scheduler/IntervaledOperation.o: cc src/scheduler/IntervaledOperation.cpp | src/scheduler/IntervaledOperation.hpp
-build .build/ServerRestarter.o: cc src/ServerRestarter.cpp | src/ServerRestarter.hpp
 
+build .build/ServerRestarter.o: cc src/ServerRestarter.cpp | src/ServerRestarter.hpp
 build .build/main.o: cc src/main.cpp | src/time_units.hpp
 
-build server-restarter: link .build/main.o .build/gmcapi/GmcApiRequest.o .build/gmcapi/GmcConnection.o .build/gmcapi/GmcServer.o .build/gmcapi/Paths.o .build/scheduler/Scheduler.o .build/scheduler/IntervaledOperation.o .build/ServerRestarter.o
+build server-restarter: link $
+  .build/gmcapi/GmcApiRequest.o $
+  .build/gmcapi/GmcConnection.o $
+  .build/gmcapi/GmcServer.o $
+  .build/gmcapi/Paths/GmcAuthentication.o $
+  .build/gmcapi/Paths/GmcCsrfInitialization.o $
+  .build/gmcapi/Paths/GmcDefaultServerFetch.o $
+  .build/gmcapi/Paths/GmcServerGetInfo.o $
+  .build/gmcapi/Paths/GmcServerRcon.o $
+  .build/gmcapi/Paths/GmcServerStart.o $
+  .build/gmcapi/Paths/GmcServerStop.o $
+  .build/scheduler/Scheduler.o $
+  .build/scheduler/IntervaledOperation.o $
+  .build/ServerRestarter.o $
+  .build/main.o

@@ -2,7 +2,7 @@
 #define GMC_SERVER_HPP
 
 #include "GmcConnection.hpp"
-#include "Paths.hpp"
+#include "Paths/Paths.hpp"
 
 #include <iostream>
 #include <stdexcept>

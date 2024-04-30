@@ -1,8 +1,9 @@
 #ifndef GMC_CONNECTION_HPP
 #define GMC_CONNECTION_HPP
 
-#include "Paths.hpp"
 #include "GmcServer.hpp"
+#include <string>
+#include <curl/curl.h>
 #include <vector>
 
 class GmcConnection {
