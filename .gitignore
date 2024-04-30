@@ -1,5 +1,6 @@
-.ninja_log
+lib/libdate-tz.a
 .build/
 server-restarter
 
+.ninja_log
 .env
