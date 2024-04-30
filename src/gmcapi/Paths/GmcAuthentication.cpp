@@ -2,9 +2,17 @@
 
 #include <sstream>
 
-const char* GmcAuthentication::path() { return "/login/auth/"; };
-const char* GmcAuthentication::referrer() { return "/login/"; };
-GmcApiRequest::Method GmcAuthentication::method() { return POST; };
+const char* GmcAuthentication::path() {
+  return "/login/auth/";
+};
+
+const char* GmcAuthentication::referrer() {
+  return "/login/";
+};
+
+GmcApiRequest::Method GmcAuthentication::method() {
+  return POST;
+};
 
 void GmcAuthentication::finalize(CURL* curl) {
   std::ostringstream oss;

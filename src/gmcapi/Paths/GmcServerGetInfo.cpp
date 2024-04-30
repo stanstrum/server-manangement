@@ -17,9 +17,17 @@ GmcServerGetInfo::GmcServerGetInfo(
   this->m_path = oss.str();
 };
 
-const char* GmcServerGetInfo::path() { return this->m_path.c_str(); };
-const char* GmcServerGetInfo::referrer() { return "/dashboard/profile/"; };
-GmcApiRequest::Method GmcServerGetInfo::method() { return GET; };
+const char* GmcServerGetInfo::path() {
+  return this->m_path.c_str();
+};
+
+const char* GmcServerGetInfo::referrer() {
+  return "/dashboard/profile/";
+};
+
+GmcApiRequest::Method GmcServerGetInfo::method() {
+  return GET;
+};
 
 void GmcServerGetInfo::finalize(CURL* curl) {};
 void GmcServerGetInfo::consume_response(std::string response) {

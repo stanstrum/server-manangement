@@ -10,7 +10,7 @@ rule link
 
 build .build/gmcapi/GmcApiRequest.o: cc src/gmcapi/GmcApiRequest.cpp | src/gmcapi/GmcApiRequest.hpp
 build .build/gmcapi/GmcConnection.o: cc src/gmcapi/GmcConnection.cpp | src/gmcapi/GmcConnection.hpp
-build .build/gmcapi/GmcServer.o: cc src/gmcapi/GmcServer.cpp | src/gmcapi/GmcServer.hpp
+build .build/gmcapi/GmcServer.o: cc src/gmcapi/GmcServer.cpp | src/gmcapi/GmcServer.hpp src/gmcapi/Paths/Paths.hpp
 
 build .build/gmcapi/Paths/GmcAuthentication.o: cc src/gmcapi/Paths/GmcAuthentication.cpp | src/gmcapi/Paths/GmcAuthentication.hpp
 build .build/gmcapi/Paths/GmcCsrfInitialization.o: cc src/gmcapi/Paths/GmcCsrfInitialization.cpp | src/gmcapi/Paths/GmcCsrfInitialization.hpp
