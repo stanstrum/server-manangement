@@ -6,6 +6,6 @@ void ServerRestarter::operation() {
 
 ServerRestarter::ServerRestarter(
   GmcServer* server,
-  uint64_t interval,
-  time_t start_timestamp
+  std::chrono::system_clock::duration interval,
+  std::chrono::system_clock::time_point start_timestamp
 ) : IntervaledOperation(interval, start_timestamp), server(server) {};

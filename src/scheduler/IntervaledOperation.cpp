@@ -1,28 +1,24 @@
 #include "IntervaledOperation.hpp"
+#include <chrono>
 
+using namespace std::chrono;
 IntervaledOperation::IntervaledOperation(
-  const time_t interval,
-  time_t next_timestamp
+  const system_clock::duration interval,
+  time_point<system_clock> next_timestamp
 ) :
-  interval(interval),
-  next_timestamp(next_timestamp)
+  m_interval(interval),
+  m_next_timestamp(next_timestamp)
 {};
 
-IntervaledOperation::IntervaledOperation(const time_t interval) : interval(interval) {
-  this->next_timestamp = time(0) + interval;
+IntervaledOperation::IntervaledOperation(const system_clock::duration interval) : m_interval(interval) {
+  this->m_next_timestamp = system_clock::now() + interval;
 };
 
 void IntervaledOperation::run_and_update() {
   this->operation();
-  this->next_timestamp += this->interval;
+  this->m_next_timestamp += this->m_interval;
 };
 
-time_t IntervaledOperation::seconds_until() {
-  time_t now = time(0);
-
-  if (this->next_timestamp <= now) {
-    return 0;
-  };
-
-  return this->next_timestamp - now;
+system_clock::time_point IntervaledOperation::next_timestamp() {
+  return this->m_next_timestamp;
 };

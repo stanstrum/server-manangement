@@ -4,24 +4,28 @@
 #include <ctime>
 #include <cstdint>
 
+#include <chrono>
+using namespace std::chrono;
+
 class IntervaledOperation {
 private:
-  const time_t interval;
-  time_t next_timestamp;
+  system_clock::duration m_interval;
+  system_clock::time_point m_next_timestamp;
 
 protected:
   virtual void operation() = 0;
 
 public:
   IntervaledOperation(
-    const time_t interval,
-    time_t next_timestamp
+    const system_clock::duration interval,
+    system_clock::time_point next_timestamp
   );
 
-  IntervaledOperation(const time_t interval);
+  IntervaledOperation(const system_clock::duration interval);
 
   void run_and_update();
-  time_t seconds_until();
+
+  system_clock::time_point next_timestamp();
 };
 
 #endif

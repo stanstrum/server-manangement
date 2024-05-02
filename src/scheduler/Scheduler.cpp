@@ -1,7 +1,12 @@
 #include "Scheduler.hpp"
 
+#include <iostream>
 #include <thread>
 #include <chrono>
+
+#include <date/date.h>
+
+IntervalExecutor::IntervalExecutor(std::initializer_list<IntervaledOperation*> ops) : ops(ops) {};
 
 void IntervalExecutor::spin() {
   // This prevents spinning forever doing nothing
@@ -15,25 +20,27 @@ void IntervalExecutor::spin() {
 
 void IntervalExecutor::wait_and_execute() {
   bool found = false;
-  time_t seconds_until_next = 0;
-  size_t op_index = 0;
+  IntervaledOperation* soonest_op = nullptr;
 
-  for (size_t i = 0; i < this->ops.size(); i++) {
-    auto* op = &this->ops[i];
-    time_t op_seconds_until = op->seconds_until();
+  for (auto* op : this->ops) {
+    if (!found) {
+      soonest_op = op;
+      found = true;
 
-    if (!found || seconds_until_next > op_seconds_until) {
-      seconds_until_next = op_seconds_until;
-      op_index = i;
+      continue;
+    };
+
+    if (soonest_op->next_timestamp() > op->next_timestamp()) {
+      soonest_op = op;
     };
   };
 
   if (!found)
     return;
 
-  std::this_thread::sleep_for(
-    std::chrono::seconds(seconds_until_next)
-  );
+  std::cout << "now  : " << date::format("%DT%T%z", std::chrono::floor<std::chrono::seconds>(std::chrono::system_clock::now())) << std::endl;
+  std::cout << "until: " << date::format("%DT%T%z", soonest_op->next_timestamp()) << std::endl;
 
-  this->ops[op_index].run_and_update();
+  std::this_thread::sleep_until(soonest_op->next_timestamp());
+  soonest_op->run_and_update();
 };

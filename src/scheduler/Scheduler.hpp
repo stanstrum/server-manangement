@@ -6,9 +6,11 @@
 
 class IntervalExecutor {
 private:
-  std::vector<IntervaledOperation> ops;
+  std::vector<IntervaledOperation*> ops;
 
 public:
+  IntervalExecutor(const std::initializer_list<IntervaledOperation*> ops);
+
   void spin();
   void wait_and_execute();
 };

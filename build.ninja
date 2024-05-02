@@ -38,7 +38,7 @@ build .build/scheduler/IntervaledOperation.o: cc src/scheduler/IntervaledOperati
 build .build/ServerRestarter.o: cc src/ServerRestarter.cpp | src/ServerRestarter.hpp
 
 # main
-build .build/main.o: cc src/main.cpp | src/time_units.hpp
+build .build/main.o: cc src/main.cpp
 
 # date.h & tz.h
 build .build/date: mkdir

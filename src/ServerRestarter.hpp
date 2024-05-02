@@ -4,7 +4,7 @@
 #include "scheduler/IntervaledOperation.hpp"
 #include "gmcapi/GmcServer.hpp"
 
-class ServerRestarter: IntervaledOperation {
+class ServerRestarter: public IntervaledOperation {
 private:
   GmcServer* server;
 
@@ -14,8 +14,8 @@ protected:
 public:
   ServerRestarter(
     GmcServer* server,
-    uint64_t interval,
-    time_t start_timestamp
+    std::chrono::system_clock::duration interval,
+    std::chrono::system_clock::time_point start_timestamp
   );
 };
 
