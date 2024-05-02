@@ -38,8 +38,11 @@ void IntervalExecutor::wait_and_execute() {
   if (!found)
     return;
 
-  std::cout << "now  : " << date::format("%DT%T%z", std::chrono::floor<std::chrono::seconds>(std::chrono::system_clock::now())) << std::endl;
-  std::cout << "until: " << date::format("%DT%T%z", soonest_op->next_timestamp()) << std::endl;
+  auto now = std::chrono::floor<std::chrono::seconds>(std::chrono::system_clock::now());
+  auto until = std::chrono::floor<std::chrono::seconds>(soonest_op->next_timestamp());
+
+  std::cout << "now  : " << date::format("%FT%R%z", now) << std::endl;
+  std::cout << "until: " << date::format("%FT%R%z", until) << std::endl;
 
   std::this_thread::sleep_until(soonest_op->next_timestamp());
   soonest_op->run_and_update();
