@@ -10,7 +10,7 @@ GmcServerStart::GmcServerStart(uint32_t id) {
   referrer_oss << "/dashboard/game/servers/" << id << "/";
 
   this->m_path = path_oss.str();
-  this->m_referrer = path_oss.str();
+  this->m_referrer = referrer_oss.str();
 };
 
 const char* GmcServerStart::path() {
