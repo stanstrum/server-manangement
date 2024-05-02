@@ -36,6 +36,7 @@ build .build/gmcapi/Paths/GmcServerStop.o: cc src/gmcapi/Paths/GmcServerStop.cpp
 build .build/scheduler/Scheduler.o: cc src/scheduler/Scheduler.cpp | src/scheduler/Scheduler.hpp
 build .build/scheduler/IntervaledOperation.o: cc src/scheduler/IntervaledOperation.cpp | src/scheduler/IntervaledOperation.hpp
 build .build/ServerRestarter.o: cc src/ServerRestarter.cpp | src/ServerRestarter.hpp
+build .build/IntervalStartParser.o: cc src/IntervalStartParser.cpp | src/IntervalStartParser.hpp
 
 # main
 build .build/main.o: cc src/main.cpp
@@ -73,5 +74,6 @@ build server-restarter: link $
   .build/scheduler/Scheduler.o $
   .build/scheduler/IntervaledOperation.o $
   .build/ServerRestarter.o $
+  .build/IntervalStartParser.o $
   .build/main.o $
   | lib/libdate-tz.a include/nlohmann/json.hpp
