@@ -9,13 +9,31 @@
 #include <chrono>
 
 int main(int argc, char** argv) {
+  std::cout << "input: " << std::flush;
+
+  std::chrono::system_clock::duration time_of_day;
+  std::string timezone;
+
+  date::from_stream(std::cin, "%I:%M%t%p %Z", time_of_day, &timezone);
+
+  if (std::cin.fail()) {
+    std::cerr << "Failed to parse server restart time" << std::endl;
+
+    return 1;
+  };
+
+  using date::operator<<;
+  std::cout << "info: " << date::format("%I:%M %p", time_of_day) << std::endl;
+  std::cout << "timezone: " << timezone << std::endl;
+  std::cout << date::locate_zone(timezone)->name() << std::endl;
+
   // Remember to do this as well:
   // ulx tsay <clr:purple>[<clr:pink>UN<clr:purple>-<clr:pink>SB<clr:purple>]<clr:white> The server is scheduled to restart in exactly one hour.
 
   using namespace date;
   using namespace std::chrono;
 
-  auto target_tz = locate_zone("America/New_York");
+  auto target_tz = locate_zone(timezone);
 
   auto now_utc = floor<seconds>(system_clock::now());
   auto now_est = make_zoned(target_tz, now_utc).get_local_time();
@@ -24,7 +42,7 @@ int main(int argc, char** argv) {
   auto begin_of_day_est = floor<days>(now_est);
 
   // 4:00am EST
-  auto local_restart_time = begin_of_day_est + 04h + 00min + 00s;
+  auto local_restart_time = begin_of_day_est + time_of_day;
 
   // Convert back to UTC
   auto restart_time = zoned_time(target_tz, local_restart_time).get_sys_time();
