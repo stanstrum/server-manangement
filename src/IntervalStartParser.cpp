@@ -37,8 +37,8 @@ std::chrono::system_clock::time_point parse_daily_interval_start_from_env(const 
   };
 
   // Debug
-  std::cout << "info: " << format("%I:%M %p", time_of_day) << std::endl;
-  std::cout << "timezone: " << timezone << std::endl;
+  std::cout << "[" << env_var << "] info: " << format("%I:%M %p", time_of_day) << std::endl;
+  std::cout << "[" << env_var << "] timezone: " << timezone << std::endl;
 
   // Calculate daily start time
   auto target_tz = locate_zone(timezone);
@@ -62,11 +62,11 @@ std::chrono::system_clock::time_point parse_daily_interval_start_from_env(const 
 
   auto difference = floor<seconds>(start_time - system_clock::now());
 
-  std::cout << "now_utc: " << now_utc << std::endl;
-  std::cout << "now_tz: " << now_tz << std::endl;
-  std::cout << "begin_of_day_est: " << begin_of_day_est << std::endl;
-  std::cout << "start_time: " << start_time << std::endl;
-  std::cout << "difference: " << difference << std::endl;
+  std::cout << "[" << env_var << "] now_utc: " << now_utc << std::endl;
+  std::cout << "[" << env_var << "] now_tz: " << now_tz << std::endl;
+  std::cout << "[" << env_var << "] begin_of_day_est: " << begin_of_day_est << std::endl;
+  std::cout << "[" << env_var << "] start_time: " << start_time << std::endl;
+  std::cout << "[" << env_var << "] difference: " << difference << std::endl;
 
   return start_time;
 };
