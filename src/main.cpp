@@ -4,6 +4,7 @@
 #include "IntervalStartParser.hpp"
 #include "tasks/ServerLogPrinter.hpp"
 #include "tasks/ServerRestarter.hpp"
+#include "tasks/ServerRestartAnnouncer.hpp"
 
 #include <chrono>
 #include <date/date.h>
@@ -12,9 +13,6 @@
 int main(int argc, char** argv) {
   using namespace date;
   using namespace std::chrono;
-
-  // Remember to do this as well:
-  // ulx tsay <clr:purple>[<clr:pink>UN<clr:purple>-<clr:pink>SB<clr:purple>]<clr:white> The server is scheduled to restart in exactly one hour.
 
   auto restart_time = parse_daily_interval_start_from_env("RESTARTER_DAILY_START_TIME");
 
@@ -69,9 +67,11 @@ int main(int argc, char** argv) {
       clock_cast<system_clock>(restart_time)
     );
 
+    ServerRestartAnnouncer announcer(default_server, "RESTART_ANNOUNCER_DAILY_START_TIME");
     ServerLogPrinter printer(default_server, duration(5s));
 
-    IntervalExecutor executor({ &restarter, &printer });
+    IntervalExecutor executor({ &restarter, &announcer, &printer });
+
     executor.spin();
   } catch (const std::runtime_error& error) {
     std::cerr << "Runtime error: " << error.what() << std::endl;

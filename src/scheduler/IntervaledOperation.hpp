@@ -31,11 +31,10 @@ public:
 };
 
 class DailyEnvIntervalServerOperation: public IntervaledOperation {
-private:
-  virtual void operation() = 0;
-
 protected:
   GmcServer* m_server;
+
+  virtual void operation() = 0;
 
 public:
   DailyEnvIntervalServerOperation(GmcServer* server, const char* env_name);

@@ -44,8 +44,9 @@ build .build/gmcapi/Paths/GmcServerConsoleGet.o: cc src/gmcapi/Paths/GmcServerCo
 # helper modules
 build .build/scheduler/Scheduler.o: cc src/scheduler/Scheduler.cpp | src/scheduler/Scheduler.hpp
 build .build/scheduler/IntervaledOperation.o: cc src/scheduler/IntervaledOperation.cpp | src/scheduler/IntervaledOperation.hpp
-build .build/tasks/ServerRestarter.o: cc src/tasks/ServerRestarter.cpp | src/tasks/ServerRestarter.hpp
-build .build/tasks/ServerLogPrinter.o: cc  src/tasks/ServerLogPrinter.cpp | src/tasks/ServerLogPrinter.hpp
+build .build/tasks/ServerRestarter.o: cc src/tasks/ServerRestarter.cpp | src/tasks/ServerRestarter.hpp src/scheduler/IntervaledOperation.hpp
+build .build/tasks/ServerRestartAnnouncer.o: cc  src/tasks/ServerRestartAnnouncer.cpp | src/tasks/ServerRestartAnnouncer.hpp src/scheduler/IntervaledOperation.hpp
+build .build/tasks/ServerLogPrinter.o: cc  src/tasks/ServerLogPrinter.cpp | src/tasks/ServerLogPrinter.hpp src/scheduler/IntervaledOperation.hpp
 build .build/IntervalStartParser.o: cc src/IntervalStartParser.cpp | src/IntervalStartParser.hpp
 
 # main
@@ -84,7 +85,8 @@ build server-restarter: link $
   .build/scheduler/Scheduler.o $
   .build/scheduler/IntervaledOperation.o $
   .build/tasks/ServerRestarter.o $
-  .build/IntervalStartParser.o $
+  .build/tasks/ServerRestartAnnouncer.o $
   .build/tasks/ServerLogPrinter.o $
+  .build/IntervalStartParser.o $
   .build/main.o $
   | lib/libdate-tz.a include/nlohmann/json.hpp
