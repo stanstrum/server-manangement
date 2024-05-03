@@ -46,8 +46,8 @@ build .build/gmcapi/Paths/GmcServerConsoleGet.o: cc src/gmcapi/Paths/GmcServerCo
 build .build/scheduler/Scheduler.o: cc src/scheduler/Scheduler.cpp | src/scheduler/Scheduler.hpp
 build .build/scheduler/IntervaledOperation.o: cc src/scheduler/IntervaledOperation.cpp | src/scheduler/IntervaledOperation.hpp
 build .build/tasks/ServerRestarter.o: cc src/tasks/ServerRestarter.cpp | src/tasks/ServerRestarter.hpp
-build .build/IntervalStartParser.o: cc src/IntervalStartParser.cpp | src/IntervalStartParser.hpp
 build .build/tasks/ServerLogPrinter.o: cc  src/tasks/ServerLogPrinter.cpp | src/tasks/ServerLogPrinter.hpp
+build .build/IntervalStartParser.o: cc src/IntervalStartParser.cpp | src/IntervalStartParser.hpp
 
 # main
 build .build/main.o: cc src/main.cpp

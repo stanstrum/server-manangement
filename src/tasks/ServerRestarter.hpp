@@ -1,8 +1,8 @@
 #ifndef SERVER_RESTARTER_HPP
 #define SERVER_RESTARTER_HPP
 
-#include "scheduler/IntervaledOperation.hpp"
-#include "gmcapi/GmcServer.hpp"
+#include "../scheduler/IntervaledOperation.hpp"
+#include "../gmcapi/GmcServer.hpp"
 
 class ServerRestarter: public IntervaledOperation {
 private:
