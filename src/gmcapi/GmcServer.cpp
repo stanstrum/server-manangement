@@ -9,19 +9,21 @@ GmcServer::GmcServer(GmcConnection* client, uint32_t id) : id(id) {
 };
 
 void GmcServer::rcon(std::string command) {
-  GmcServerRcon request(this->id, command);
-
-  this->client->send_request(request);
+  this->client->send_request(GmcServerRcon {
+    this->id, command
+  });
 };
 
 void GmcServer::start() {
-  GmcServerStart request(this->id);
-  this->client->send_request(request);
+  this->client->send_request(GmcServerStart {
+    this->id
+  });
 };
 
 void GmcServer::stop() {
-  GmcServerStop request(this->id);
-  this->client->send_request(request);
+  this->client->send_request(GmcServerStop {
+    this->id
+  });
 };
 
 // "Sometimes my genius ... it's almost frightening."
@@ -31,13 +33,13 @@ void GmcServer::restart() {
 };
 
 void GmcServer::status(struct GmcServerStatus& status) {
-  GmcServerGetInfo request(this->id, status);
-
-  this->client->send_request(request);
+  this->client->send_request(GmcServerGetInfo {
+    this->id, status
+  });
 };
 
 void GmcServer::console_get(std::string& server_log) {
-  GmcServerConsoleGet request(this->id, server_log);
-
-  this->client->send_request(request);
+  this->client->send_request(GmcServerConsoleGet {
+    this->id, server_log
+  });
 };

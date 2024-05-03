@@ -40,13 +40,11 @@ GmcConnection::GmcConnection(std::string host)
   this->panel_url = "https://" + host;
 
   // initialize CURL handle
-  CURL* curl = curl_easy_init();
+  this->curl = curl_easy_init();
 
-  if (!curl) {
+  if (!this->curl) {
     throw std::runtime_error("CURL initialization failed");
   };
-
-  this->curl = curl;
 };
 
 template<class Request> void GmcConnection::send_request(Request request) {
@@ -93,7 +91,6 @@ template<class Request> void GmcConnection::send_request(Request request) {
   // curl_easy_setopt(this->curl, CURLOPT_STDERR, stdout);
 
   CurlHeaderWrapper chw;
-
   std::string cookie_string = "";
 
   if (this->csrf_token) {
@@ -129,17 +126,11 @@ template<class Request> void GmcConnection::send_request(Request request) {
   curl_easy_setopt(this->curl, CURLOPT_HTTPHEADER, chw.headers);
   request.finalize(this->curl);
 
-  // std::cout << "\n";
-
   CURLcode res = curl_easy_perform(this->curl);
 
   if (res) {
     throw std::runtime_error("Non-zero CURL result");
   };
-
-  // if (!read_buffer.empty()) {
-  //   std::cout << read_buffer << "\n" << std::endl;
-  // };
 
   request.consume_response(std::move(read_buffer));
 };
@@ -152,8 +143,6 @@ size_t GmcConnection::write_callback(void* contents, size_t size, size_t nmemb, 
 };
 
 size_t GmcConnection::header_callback(void* contents, size_t size, size_t nmemb, void* userp) {
-  // std::cout << std::string((char*)contents, size * nmemb);
-
   const static std::regex DEFAULT_SERVER_REGEX("^location: .+?(\\d+)", std::regex_constants::icase);
   const static std::regex COOKIE_REGEX("^set-cookie: (.+?)=(.+?)\\s*[;$]", std::regex_constants::icase);
 
@@ -200,11 +189,8 @@ size_t GmcConnection::header_callback(void* contents, size_t size, size_t nmemb,
 };
 
 void GmcConnection::connect(std::string username, std::string password) {
-  GmcAuthentication auth { username, password, true };
-  this->send_request(auth);
-
-  GmcDefaultServerFetch default_server {};
-  this->send_request(default_server);
+  this->send_request(GmcAuthentication { username, password, true });
+  this->send_request(GmcDefaultServerFetch {});
 };
 
 void GmcConnection::add_server(struct GmcServer& server) {

@@ -7,7 +7,7 @@ const char* GmcCsrfInitialization::path() {
 };
 
 const char* GmcCsrfInitialization::referrer() {
-  return 0;
+  return nullptr;
 };
 
 GmcApiRequest::Method GmcCsrfInitialization::method() {
