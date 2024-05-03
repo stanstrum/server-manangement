@@ -19,7 +19,6 @@ rule cp
   command = cp $flags $in $out
 
 # api implementation
-build .build/gmcapi/GmcApiRequest.o: cc src/gmcapi/GmcApiRequest.cpp | src/gmcapi/GmcApiRequest.hpp
 build .build/gmcapi/GmcConnection.o: cc src/gmcapi/GmcConnection.cpp | src/gmcapi/GmcConnection.hpp
 build .build/gmcapi/GmcServer.o: cc src/gmcapi/GmcServer.cpp | src/gmcapi/GmcServer.hpp src/gmcapi/Paths/Paths.hpp
 build src/gmcapi/Paths/Paths.hpp: phony $
@@ -72,7 +71,6 @@ build lib/libdate-tz.a: cp .build/date/libdate-tz.a
 
 # executable
 build server-restarter: link $
-  .build/gmcapi/GmcApiRequest.o $
   .build/gmcapi/GmcConnection.o $
   .build/gmcapi/GmcServer.o $
   .build/gmcapi/Paths/GmcAuthentication.o $
