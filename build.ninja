@@ -22,6 +22,15 @@ rule cp
 build .build/gmcapi/GmcApiRequest.o: cc src/gmcapi/GmcApiRequest.cpp | src/gmcapi/GmcApiRequest.hpp
 build .build/gmcapi/GmcConnection.o: cc src/gmcapi/GmcConnection.cpp | src/gmcapi/GmcConnection.hpp
 build .build/gmcapi/GmcServer.o: cc src/gmcapi/GmcServer.cpp | src/gmcapi/GmcServer.hpp src/gmcapi/Paths/Paths.hpp
+build src/gmcapi/Paths/Paths.hpp: phony $
+  src/gmcapi/Paths/GmcAuthentication.hpp $
+  src/gmcapi/Paths/GmcCsrfInitialization.hpp $
+  src/gmcapi/Paths/GmcDefaultServerFetch.hpp $
+  src/gmcapi/Paths/GmcServerGetInfo.hpp $
+  src/gmcapi/Paths/GmcServerRcon.hpp $
+  src/gmcapi/Paths/GmcServerStart.hpp $
+  src/gmcapi/Paths/GmcServerStop.hpp $
+  src/gmcapi/Paths/GmcServerConsoleGet.hpp
 
 # api paths
 build .build/gmcapi/Paths/GmcAuthentication.o: cc src/gmcapi/Paths/GmcAuthentication.cpp | src/gmcapi/Paths/GmcAuthentication.hpp
