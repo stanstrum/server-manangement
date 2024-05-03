@@ -1,9 +1,5 @@
 #include "ServerRestarter.hpp"
 
-void ServerRestarter::operation() {
-  this->server->restart();
-};
-
 ServerRestarter::ServerRestarter(
   GmcServer* server,
   std::chrono::system_clock::duration interval,
@@ -12,3 +8,9 @@ ServerRestarter::ServerRestarter(
   IntervaledOperation(interval, start_timestamp),
   server(server)
 {};
+
+void ServerRestarter::operation() {
+  std::cout << "[Restarter] Restarting server" << std::endl;
+
+  this->server->restart();
+};

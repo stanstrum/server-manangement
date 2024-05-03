@@ -6,5 +6,7 @@ ServerRestartAnnouncer::ServerRestartAnnouncer(
 ) : DailyEnvIntervalServerOperation(server, env_name) {};
 
 void ServerRestartAnnouncer::operation() {
+  std::cout << "[Announcer] Announcing server restart" << std::endl;
+
   this->m_server->rcon("ulx tsay <clr:purple>[<clr:pink>UN<clr:purple>-<clr:pink>SB<clr:purple>]<clr:white> The server is scheduled to restart in exactly one hour.");
 };
