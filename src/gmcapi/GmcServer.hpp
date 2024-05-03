@@ -31,13 +31,14 @@ private:
   struct GmcConnection* client;
 
 public:
-  GmcServer(GmcConnection* client, uint32_t id);
+  GmcServer(struct GmcConnection* client, uint32_t id);
 
   void rcon(std::string command);
   void start();
   void stop();
   void restart();
   void status(struct GmcServerStatus& status);
+  void console_get(std::string& server_log);
 };
 
 #endif

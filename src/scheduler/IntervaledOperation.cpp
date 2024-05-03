@@ -1,5 +1,8 @@
 #include "IntervaledOperation.hpp"
+#include "../IntervalStartParser.hpp"
+
 #include <chrono>
+#include <date/date.h>
 
 using namespace std::chrono;
 IntervaledOperation::IntervaledOperation(
@@ -22,3 +25,14 @@ void IntervaledOperation::run_and_update() {
 system_clock::time_point IntervaledOperation::next_timestamp() {
   return this->m_next_timestamp;
 };
+
+DailyEnvIntervalServerOperation::DailyEnvIntervalServerOperation(
+  GmcServer* server,
+  const char* env_name
+) :
+  IntervaledOperation {
+    duration(date::days(1)),
+    parse_daily_interval_start_from_env(env_name)
+  },
+  m_server(server)
+{};

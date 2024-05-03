@@ -5,7 +5,6 @@
 
 class GmcServerStart: private GmcApiRequest {
 private:
-  uint32_t id;
   std::string m_path;
   std::string m_referrer;
 

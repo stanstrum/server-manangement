@@ -5,11 +5,9 @@
 #include "IntervalStartParser.hpp"
 #include "tasks/ServerLogPrinter.hpp"
 
+#include <chrono>
 #include <date/date.h>
 #include <date/tz.h>
-
-#include <chrono>
-
 
 int main(int argc, char** argv) {
   using namespace date;

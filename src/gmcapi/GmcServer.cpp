@@ -35,3 +35,9 @@ void GmcServer::status(struct GmcServerStatus& status) {
 
   this->client->send_request(request);
 };
+
+void GmcServer::console_get(std::string& server_log) {
+  GmcServerConsoleGet request(this->id, server_log);
+
+  this->client->send_request(request);
+};

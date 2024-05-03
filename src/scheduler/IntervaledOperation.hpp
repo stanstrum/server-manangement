@@ -3,8 +3,10 @@
 
 #include <ctime>
 #include <cstdint>
-
 #include <chrono>
+
+#include "../gmcapi/GmcServer.hpp"
+
 using namespace std::chrono;
 
 class IntervaledOperation {
@@ -26,6 +28,17 @@ public:
   void run_and_update();
 
   system_clock::time_point next_timestamp();
+};
+
+class DailyEnvIntervalServerOperation: public IntervaledOperation {
+private:
+  virtual void operation() = 0;
+
+protected:
+  GmcServer* m_server;
+
+public:
+  DailyEnvIntervalServerOperation(GmcServer* server, const char* env_name);
 };
 
 #endif
