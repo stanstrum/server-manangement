@@ -11,7 +11,7 @@ IntervaledOperation::IntervaledOperation(
 {};
 
 IntervaledOperation::IntervaledOperation(const system_clock::duration interval) : m_interval(interval) {
-  this->m_next_timestamp = system_clock::now() + interval;
+  this->m_next_timestamp = system_clock::now();
 };
 
 void IntervaledOperation::run_and_update() {

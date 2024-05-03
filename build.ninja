@@ -40,12 +40,14 @@ build .build/gmcapi/Paths/GmcServerGetInfo.o: cc src/gmcapi/Paths/GmcServerGetIn
 build .build/gmcapi/Paths/GmcServerRcon.o: cc src/gmcapi/Paths/GmcServerRcon.cpp | src/gmcapi/Paths/GmcServerRcon.hpp
 build .build/gmcapi/Paths/GmcServerStart.o: cc src/gmcapi/Paths/GmcServerStart.cpp | src/gmcapi/Paths/GmcServerStart.hpp
 build .build/gmcapi/Paths/GmcServerStop.o: cc src/gmcapi/Paths/GmcServerStop.cpp | src/gmcapi/Paths/GmcServerStop.hpp
+build .build/gmcapi/Paths/GmcServerConsoleGet.o: cc src/gmcapi/Paths/GmcServerConsoleGet.cpp | src/gmcapi/Paths/GmcServerConsoleGet.hpp
 
 # helper modules
 build .build/scheduler/Scheduler.o: cc src/scheduler/Scheduler.cpp | src/scheduler/Scheduler.hpp
 build .build/scheduler/IntervaledOperation.o: cc src/scheduler/IntervaledOperation.cpp | src/scheduler/IntervaledOperation.hpp
 build .build/ServerRestarter.o: cc src/ServerRestarter.cpp | src/ServerRestarter.hpp
 build .build/IntervalStartParser.o: cc src/IntervalStartParser.cpp | src/IntervalStartParser.hpp
+build .build/tasks/ServerLogPrinter.o: cc  src/tasks/ServerLogPrinter.cpp | src/tasks/ServerLogPrinter.hpp
 
 # main
 build .build/main.o: cc src/main.cpp
@@ -80,9 +82,11 @@ build server-restarter: link $
   .build/gmcapi/Paths/GmcServerRcon.o $
   .build/gmcapi/Paths/GmcServerStart.o $
   .build/gmcapi/Paths/GmcServerStop.o $
+  .build/gmcapi/Paths/GmcServerConsoleGet.o $
   .build/scheduler/Scheduler.o $
   .build/scheduler/IntervaledOperation.o $
   .build/ServerRestarter.o $
   .build/IntervalStartParser.o $
+  .build/tasks/ServerLogPrinter.o $
   .build/main.o $
   | lib/libdate-tz.a include/nlohmann/json.hpp

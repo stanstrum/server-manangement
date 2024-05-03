@@ -8,5 +8,6 @@
 #include "GmcServerRcon.hpp"
 #include "GmcServerStart.hpp"
 #include "GmcServerStop.hpp"
+#include "GmcServerConsoleGet.hpp"
 
 #endif

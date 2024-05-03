@@ -225,3 +225,4 @@ template void GmcConnection::send_request(GmcServerGetInfo request);
 template void GmcConnection::send_request(GmcServerStart request);
 template void GmcConnection::send_request(GmcServerStop request);
 template void GmcConnection::send_request(GmcServerRcon request);
+template void GmcConnection::send_request(GmcServerConsoleGet request);

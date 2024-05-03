@@ -3,6 +3,7 @@
 #include "ServerRestarter.hpp"
 #include "scheduler/Scheduler.hpp"
 #include "IntervalStartParser.hpp"
+#include "tasks/ServerLogPrinter.hpp"
 
 #include <date/date.h>
 #include <date/tz.h>
@@ -59,7 +60,7 @@ int main(int argc, char** argv) {
       return 1;
     };
 
-    auto interval = system_clock::duration(days(1));
+    auto interval = duration(days(1));
 
     std::cout << "restart_time_sys: " << restart_time << std::endl;
     std::cout << "interval: " << interval << std::endl;
@@ -70,7 +71,9 @@ int main(int argc, char** argv) {
       clock_cast<system_clock>(restart_time)
     );
 
-    IntervalExecutor executor({ &restarter });
+    ServerLogPrinter printer(default_server, duration(5s));
+
+    IntervalExecutor executor({ &restarter, &printer });
     executor.spin();
   } catch (const std::runtime_error& error) {
     std::cerr << "Runtime error: " << error.what() << std::endl;
