@@ -79,8 +79,6 @@ template<class Request> void GmcConnection::send_request(Request request) {
 
   std::string url = this->panel_url + request.path();
 
-  std::cout << "url: " << url << std::endl;
-
   curl_easy_setopt(this->curl, CURLOPT_URL, url.c_str());
   curl_easy_setopt(this->curl, CURLOPT_WRITEDATA, &read_buffer);
   curl_easy_setopt(this->curl, CURLOPT_HEADERDATA, this);
