@@ -179,9 +179,8 @@ size_t GmcConnection::header_callback(void* contents, size_t size, size_t nmemb,
     };
 
     if (cookie_to_write) {
-      if (*cookie_to_write) {
-        free(*cookie_to_write);
-      };
+      // no need to free; replacing the pointer automatically frees
+      // *cookie_to_write
 
       *cookie_to_write = new std::string(value);
     };
