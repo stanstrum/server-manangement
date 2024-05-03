@@ -1,9 +1,9 @@
 #include "gmcapi/GmcConnection.hpp"
 
-#include "ServerRestarter.hpp"
 #include "scheduler/Scheduler.hpp"
 #include "IntervalStartParser.hpp"
 #include "tasks/ServerLogPrinter.hpp"
+#include "tasks/ServerRestarter.hpp"
 
 #include <chrono>
 #include <date/date.h>
