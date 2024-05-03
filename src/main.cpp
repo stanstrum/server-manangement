@@ -1,21 +1,12 @@
 #include "gmcapi/GmcConnection.hpp"
 
-#include "scheduler/Scheduler.hpp"
-#include "IntervalStartParser.hpp"
 #include "tasks/ServerLogPrinter.hpp"
 #include "tasks/ServerRestarter.hpp"
 #include "tasks/ServerRestartAnnouncer.hpp"
-
-#include <chrono>
-#include <date/date.h>
-#include <date/tz.h>
+#include "scheduler/Scheduler.hpp"
 
 int main(int argc, char** argv) {
-  using namespace date;
-  using namespace std::chrono;
-
-  auto restart_time = parse_daily_interval_start_from_env("RESTARTER_DAILY_START_TIME");
-
+  // Get login info from env
   std::string username;
   std::string password;
   std::string host;
@@ -45,9 +36,11 @@ int main(int argc, char** argv) {
   };
 
   try {
+    // Connect to & authenticate with control panel
     GmcConnection conn(host);
     conn.connect(username, password);
 
+    // Acquire default server (assuming there is one)
     auto* default_server = conn.default_server();
     if (!default_server) {
       std::cerr << "No default server found" << std::endl;
@@ -56,22 +49,15 @@ int main(int argc, char** argv) {
       return 1;
     };
 
-    auto interval = duration(days(1));
-
-    std::cout << "restart_time_sys: " << restart_time << std::endl;
-    std::cout << "interval: " << interval << std::endl;
-
-    ServerRestarter restarter(
-      default_server,
-      interval,
-      clock_cast<system_clock>(restart_time)
-    );
-
+    // Set up tasks
+    ServerRestarter restarter(default_server, "RESTARTER_DAILY_START_TIME");
     ServerRestartAnnouncer announcer(default_server, "RESTART_ANNOUNCER_DAILY_START_TIME");
     ServerLogPrinter printer(default_server, duration(5s));
 
+    // Set up executor
     IntervalExecutor executor({ &restarter, &announcer, &printer });
 
+    // Run indefinitely
     executor.spin();
   } catch (const std::runtime_error& error) {
     std::cerr << "Runtime error: " << error.what() << std::endl;
