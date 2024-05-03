@@ -13,4 +13,4 @@ GmcApiRequest::Method GmcDefaultServerFetch::method() {
 };
 
 void GmcDefaultServerFetch::finalize(CURL* curl) {};
-void GmcDefaultServerFetch::consume_response(std::string response) {};
+void GmcDefaultServerFetch::consume_response(std::string&& response) {};

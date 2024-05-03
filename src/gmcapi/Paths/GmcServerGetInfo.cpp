@@ -30,7 +30,7 @@ GmcApiRequest::Method GmcServerGetInfo::method() {
 };
 
 void GmcServerGetInfo::finalize(CURL* curl) {};
-void GmcServerGetInfo::consume_response(std::string response) {
+void GmcServerGetInfo::consume_response(std::string&& response) {
   using json = nlohmann::json;
 
   json data = json::parse(response);

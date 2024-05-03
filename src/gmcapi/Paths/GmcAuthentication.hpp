@@ -21,7 +21,7 @@ public:
   Method method() final;
 
   void finalize(CURL* curl) final;
-  void consume_response(std::string response) final;
+  void consume_response(std::string&& response) final;
 };
 
 #endif

@@ -42,4 +42,4 @@ void GmcServerRcon::finalize(CURL* curl) {
   curl_easy_setopt(curl, CURLOPT_COPYPOSTFIELDS, post_data.c_str());
 };
 
-void GmcServerRcon::consume_response(std::string response) {};
+void GmcServerRcon::consume_response(std::string&& response) {};

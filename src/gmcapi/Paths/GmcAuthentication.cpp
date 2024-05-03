@@ -31,7 +31,7 @@ void GmcAuthentication::finalize(CURL* curl) {
   curl_easy_setopt(curl, CURLOPT_COPYPOSTFIELDS, post_data.c_str());
 };
 
-void GmcAuthentication::consume_response(std::string response) {
+void GmcAuthentication::consume_response(std::string&& response) {
   // todo, parse response and do stuff
 };
 

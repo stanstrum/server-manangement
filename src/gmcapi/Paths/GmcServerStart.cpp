@@ -26,4 +26,4 @@ GmcApiRequest::Method GmcServerStart::method() {
 };
 
 void GmcServerStart::finalize(CURL* curl) {};
-void GmcServerStart::consume_response(std::string response) {};
+void GmcServerStart::consume_response(std::string&& response) {};

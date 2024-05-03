@@ -17,7 +17,7 @@ public:
   virtual Method method() = 0;
 
   virtual void finalize(CURL* curl) = 0;
-  virtual void consume_response(std::string response) = 0;
+  virtual void consume_response(std::string&& response) = 0;
 };
 
 #endif

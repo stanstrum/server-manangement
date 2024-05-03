@@ -15,4 +15,4 @@ GmcApiRequest::Method GmcCsrfInitialization::method() {
 };
 
 void GmcCsrfInitialization::finalize(CURL* curl) {};
-void GmcCsrfInitialization::consume_response(std::string response) {};
+void GmcCsrfInitialization::consume_response(std::string&& response) {};

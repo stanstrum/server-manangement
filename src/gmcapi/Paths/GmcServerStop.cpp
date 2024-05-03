@@ -30,4 +30,4 @@ void GmcServerStop::finalize(CURL* curl) {
   curl_easy_setopt(curl, CURLOPT_COPYPOSTFIELDS, "stopcmd=");
 };
 
-void GmcServerStop::consume_response(std::string response) {};
+void GmcServerStop::consume_response(std::string&& response) {};

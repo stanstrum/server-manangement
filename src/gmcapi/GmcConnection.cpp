@@ -141,7 +141,7 @@ template<class Request> void GmcConnection::send_request(Request request) {
   //   std::cout << read_buffer << "\n" << std::endl;
   // };
 
-  return request.consume_response(read_buffer);
+  request.consume_response(std::move(read_buffer));
 };
 
 // https://terminalroot.com/using-curl-with-cpp/
